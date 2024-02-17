@@ -117,7 +117,7 @@ function get_entity_id(scene)
     end
 end
 
-"""Authenticate with the m2m API and return an access token"""
+# Authenticate with the m2m API and return an access token
 function api_authenticate()	
     login_url = "https://m2m.cr.usgs.gov/api/api/json/stable/login"
     username = get(ENV, "LANDSAT_EXPLORER_USER", "invalid")
@@ -130,7 +130,7 @@ function api_authenticate()
     return token
 end
 
-"""Send a get request to the m2m API"""
+# Send a get request to the m2m API
 function api_request(endpoint, params, token)
     payload = JSON.json(params)
     url = "https://m2m.cr.usgs.gov/api/api/json/stable/$endpoint"
@@ -139,7 +139,7 @@ function api_request(endpoint, params, token)
     return r.body |> String |> JSON.parse
 end
 
-"""Filter by acquisition date"""
+# Filter by acquisition date
 function acquisition_filter(dates::Tuple{DateTime,DateTime})
     return OrderedDict(
         "start" => Dates.format(dates[1], "yyyy-mm-dd"),
@@ -151,7 +151,7 @@ function acquisition_filter(::Nothing)
     return nothing
 end
 
-"""Filter by geographic location"""
+# Filter by geographic location
 function spatial_filter(geom::BoundingBox)
     return OrderedDict(
         "filterType" => "mbr",
@@ -189,7 +189,7 @@ function spatial_filter(::Nothing)
     return nothing
 end
 
-"""Filter by cloud coverage"""
+# Filter by cloud coverage
 function cloud_filter(cloud_cover::Integer)
     return OrderedDict(
         "min" => 0, 

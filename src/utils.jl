@@ -1,14 +1,14 @@
-"""Returns true if string matches format for scene id"""
+# Returns true if string matches format for scene id
 function is_scene_id(id)
     return length(id) == 40 && first(id) == 'L'
 end
 
-"""Returns true if string matches format for entity id"""
+# Returns true if string matches format for entity id
 function is_entity_id(id)
     return length(id) == 21 && first(id) == 'L'
 end
 
-"""Parse metadata from Landsat scene ID"""
+# Parse metadata from Landsat scene ID
 function parse_scene_id(scene_id)
     elements = split(scene_id, "_")
     return Dict(
@@ -24,7 +24,7 @@ function parse_scene_id(scene_id)
     )
 end
 
-"""Parse metadata from Landsat entity ID"""
+# Parse metadata from Landsat entity ID
 function parse_entity_id(entity_id)
     return Dict(
         "entity_id" => entity_id,
@@ -39,7 +39,7 @@ function parse_entity_id(entity_id)
     )
 end
 
-"""Return the dataset string for the provided satellite and processing level"""
+# Return the dataset string for the provided satellite and processing level
 function get_dataset(satellite, level)
     sensor = @match satellite begin
         "LANDSAT_5" || 5 => "tm"
@@ -51,7 +51,7 @@ function get_dataset(satellite, level)
     return "landsat_$(sensor)_c2_l$level"
 end
 
-"""Return the data id to download a scene belonging to the given dataset"""
+# Return the data id to download a scene belonging to the given dataset
 function get_data_id(dataset)
     products = Dict(
         "landsat_tm_c2_l1"=>["5e81f14f92acf9ef", "5e83d0a0f94d7d8d", "63231219fdd8c4e5"],
@@ -65,7 +65,7 @@ function get_data_id(dataset)
     return products[dataset]
 end
 
-"""Guess the dataset string for the given identifier"""
+# Guess the dataset string for the given identifier
 function guess_dataset(identifier)
     if is_scene_id(identifier)
         metadata = parse_scene_id(identifier)

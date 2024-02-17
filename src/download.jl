@@ -53,7 +53,7 @@ function download_scene(scene, dir=pwd(); log_progress=true, unpack=false)
     end
 end
 
-"""Generate authentication cookies for downloading scenes"""
+# Generate authentication cookies for downloading scenes
 function authenticate_download()
     # Get CSRF Token
     auth_url = "https://ers.cr.usgs.gov/login/"
@@ -86,13 +86,17 @@ function authenticate_download()
     HTTP.COOKIEJAR.entries["ers.cr.usgs.gov"] = Dict{String, HTTP.Cookies.Cookie}()
 end
 
-"""Returns true if logged in to the download API"""
+# Returns true if logged in to the download API
 function logged_in()
     cookies = get(HTTP.COOKIEJAR.entries, "earthexplorer.usgs.gov", nothing)
     !isnothing(cookies) && "usgs.gov;/;EROS_SSO_production_secure" in keys(cookies)
 end
 
-"""Logout of earthexplorer; this is necessary to prevent authentication errors down the line"""
+"""
+    logout()
+
+Logout of Earth Explorer.
+"""
 function logout()
     HTTP.get("https://earthexplorer.usgs.gov/logout", status_exception=false)
 end
