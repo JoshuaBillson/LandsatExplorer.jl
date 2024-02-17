@@ -65,6 +65,13 @@ roi = [
 
     # Test Zero Results
     @test_throws ErrorException search("LANDSAT_9", 2, dates=dates, geom=bb)
+    
+    # Test Authentication with Bad Credentials
+    old_pass = ENV["LANDSAT_EXPLORER_PASS"]
+    authenticate(ENV["LANDSAT_EXPLORER_USER"], "fail")
+    @test_throws ErrorException LE.api_authenticate()
+    @test_throws ErrorException LE.authenticate_download()
+    authenticate(ENV["LANDSAT_EXPLORER_USER"], old_pass)
 
     # Test Download
     logout()

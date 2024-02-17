@@ -74,7 +74,7 @@ function authenticate_download()
             throw(e)
         end
     end
-    (status_code != 200) && throw(ArgumentError("Authentication failed with code $(status_code)!"))
+    (status_code != 200) && throw(ErrorException("Authentication failed with code $(status_code)!"))
 
     # Make Sure to Logout on Exit
     if !("earthexplorer.usgs.gov" in keys(HTTP.COOKIEJAR.entries))
@@ -84,12 +84,6 @@ function authenticate_download()
     # Transfer Cookies
     HTTP.COOKIEJAR.entries["earthexplorer.usgs.gov"] = HTTP.COOKIEJAR.entries["ers.cr.usgs.gov"]
     HTTP.COOKIEJAR.entries["ers.cr.usgs.gov"] = Dict{String, HTTP.Cookies.Cookie}()
-end
-
-# Returns true if logged in to the download API
-function logged_in()
-    cookies = get(HTTP.COOKIEJAR.entries, "earthexplorer.usgs.gov", nothing)
-    !isnothing(cookies) && "usgs.gov;/;EROS_SSO_production_secure" in keys(cookies)
 end
 
 """
