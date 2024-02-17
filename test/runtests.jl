@@ -71,6 +71,6 @@ roi = [
     scene_to_download = search("LANDSAT_8", 2, dates=dates, geom=point, clouds=6).Name |> first
     downloaded = download_scene(scene_to_download; log_progress=true, unpack=true)
     @test downloaded == joinpath(pwd(), scene_to_download)
-    rm(downloaded)
+    rm(downloaded, recursive=true)
     logout()
 end
