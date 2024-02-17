@@ -32,6 +32,11 @@ roi = [
     @test all([!isnothing(match(r"LC08_L2SP_04[23]02[34]_2020", x)) for x in results_2.Name])
     @test length(results_2.Name) == 6
 
+    # Test Filters with Nothing Values
+    @test isnothing(LE.acquisition_filter(nothing))
+    @test isnothing(LE.spatial_filter(nothing))
+    @test isnothing(LE.cloud_filter(nothing))
+
     # Test Scene and Entity ID
     scene_id = results_2.Name |> first
     entity_id = results_2.Id |> first
