@@ -102,7 +102,7 @@ function get_entity_id(scene)
     list_id = rand('a':'z', 10) |> String
     params = Dict(
         "listId" => list_id, 
-        "datasetName" => "landsat_ot_c2_l2", 
+        "datasetName" => guess_dataset(scene), 
         "idField" => "displayId", 
         "entityId" => scene )
     api_request("scene-list-add", params, token)
